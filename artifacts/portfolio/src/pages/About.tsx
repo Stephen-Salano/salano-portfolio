@@ -1,74 +1,62 @@
+import { Github, Linkedin, Mail } from "lucide-react";
+
 export default function About() {
   return (
-    <div className="max-w-3xl mx-auto px-6 lg:px-12 py-20 pb-32">
-      <header className="mb-16">
-        <div className="font-mono text-primary text-sm mb-5">
-          // About
+    <>
+      <div className="page-title-block">
+        <div className="page-label">// about</div>
+        <h1 className="page-title">The engineer behind the code.</h1>
+      </div>
+
+      <div className="about-content">
+
+        <div className="about-section">
+          <div className="section-label">// background</div>
+          <p>
+            I'm a full-stack engineer based in Nairobi, Kenya, with a focus on backend systems and platform architecture.
+            I studied Computer Science at the Catholic University of Eastern Africa, where I developed a strong foundation
+            in systems thinking and software design.
+          </p>
+          <p>
+            Currently serving as CTO at Axiss Innovators, I lead the technical direction of Psyllabus — a multi-tenant
+            school management platform I've been building from the ground up. Java and Spring Boot are my primary tools
+            for production work, though I move across the stack when the problem requires it.
+          </p>
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-          Stephen Salano.
-        </h1>
-      </header>
 
-      <div className="space-y-14">
-        
-        <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground/70 mb-5">Overview</h2>
-          <p className="text-base text-muted-foreground leading-relaxed">
-            Full-stack engineer and CTO based in Nairobi, Kenya. I specialise in building scalable, event-driven backend systems using Java and the Spring ecosystem — from multi-tenant SaaS platforms to AI-powered analytics pipelines. Currently serving as CTO at Axiss Innovators, leading architecture of a production school management platform serving Kenyan institutions.
+        <div className="about-section">
+          <div className="section-label">// approach</div>
+          <div className="code-block">{`/**
+ * Build for reliability, not just speed.
+ * Design for the engineer who maintains it next.
+ * Understand the system before optimising it.
+ * Ship working software, then make it excellent.
+ */`}</div>
+        </div>
+
+        <div className="about-section">
+          <div className="section-label">// education</div>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "15px", color: "var(--text-secondary)", lineHeight: "1.7" }}>
+            BSc Computer Science — Catholic University of Eastern Africa. Currently completing final requirements.
           </p>
-        </section>
+        </div>
 
-        <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground/70 mb-5">Professional Experience</h2>
-          <div className="space-y-6 text-base text-muted-foreground leading-relaxed">
-            <p>
-              At Axiss Innovators (2025–present), I lead the architecture and development of a multi-tenant school management SaaS. The platform handles CBC grading, subscription-based access tiers, AI-powered analytics for administrators and teachers, and event-driven reporting pipelines built on RabbitMQ, Redis, and PostgreSQL.
-            </p>
-            <p>
-              At Sportpesa Kenya (Oct–Dec 2025, contract), I engineered monitoring solutions using the ELK Stack for automated real-time error detection across production and disaster recovery environments. I also contributed to deployment pipeline improvements and internal documentation.
-            </p>
-            <p>
-              At AfyaRekod (Jun 2022–Jan 2023), I built real-time patient data APIs for a Universal Patient Portal using Java, Kotlin, and Spring Boot. I contributed to database schema design, third-party healthcare API integration, and microservices architecture documentation.
-            </p>
+        <div className="about-section">
+          <div className="section-label">// elsewhere</div>
+          <div className="elsewhere-links">
+            <a href="https://github.com/Stephen-Salano" target="_blank" rel="noreferrer">
+              <Github size={16} /> GitHub
+            </a>
+            <a href="https://linkedin.com/in/stephen-salano" target="_blank" rel="noreferrer">
+              <Linkedin size={16} /> LinkedIn
+            </a>
+            <a href="mailto:contact@stephensalano.dev">
+              <Mail size={16} /> Email
+            </a>
           </div>
-        </section>
-
-        <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground/70 mb-5">Philosophy</h2>
-          <div className="bg-card border border-border rounded-xl p-6 font-mono text-sm space-y-3">
-            <div className="flex items-start gap-3">
-              <span className="text-primary shrink-0">//</span>
-              <span className="text-muted-foreground">Build for reliability, not just speed</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-primary shrink-0">//</span>
-              <span className="text-muted-foreground">Design systems that scale from day one</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-primary shrink-0">//</span>
-              <span className="text-muted-foreground">Measure impact, not just output</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-primary shrink-0">//</span>
-              <span className="text-muted-foreground">Document decisions, not just code</span>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground/70 mb-5">Education</h2>
-          <p className="text-base text-muted-foreground leading-relaxed">
-            BSc Computer Science — Catholic University of Eastern Africa
-          </p>
-        </section>
-
-        <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground/70 mb-3">Location</h2>
-          <p className="text-base text-muted-foreground">Based in Nairobi, Kenya.</p>
-        </section>
+        </div>
 
       </div>
-    </div>
+    </>
   );
 }

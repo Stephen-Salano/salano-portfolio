@@ -1,0 +1,435 @@
+# REPLIT BUILD PROMPT — Stephen Salano IDE Portfolio
+## Instructions for use: Copy everything below this line into Replit Agent exactly as written. Do not summarise it. Do not paraphrase it. Paste the full text.
+
+---
+
+Build a personal portfolio website for Stephen Salano. The portfolio is designed to look and feel like an open IntelliJ IDEA project in the JetBrains New UI style. The visitor experiences the portfolio as if they opened an IDE and found a developer's project already running. Every design and layout decision below is final and must not be changed, approximated, or creatively interpreted. If something is not specified, use the closest neutral option — do not invent.
+
+---
+
+## TECH STACK
+
+Build this as a single-page React application using Vite. Use React Router for navigation between the five pages. Use plain CSS modules or a single global CSS file — do not use Tailwind CSS, styled-components, or any other CSS framework. Load JetBrains Mono and Inter from Google Fonts. Use Lucide React for all icons. No other external UI libraries.
+
+---
+
+## COLOUR TOKENS
+
+Define these as CSS custom properties on `:root` and use them everywhere. Never use a raw hex value outside of this declaration block.
+
+```css
+:root {
+  --bg-deepest: #1E1F22;
+  --bg-panel: #2B2D30;
+  --bg-tab-active: #4E5157;
+  --bg-tab-hover: #393B40;
+  --bg-selection: #2E436E;
+  --border-subtle: #393B40;
+  --border-panel: #3C3F41;
+  --text-primary: #DFE1E5;
+  --text-secondary: #A9B7C6;
+  --text-muted: #6F737A;
+  --syntax-string: #6A8759;
+  --green: #22c55e;
+  --green-dim: #16a34a;
+  --green-glow: rgba(34, 197, 94, 0.08);
+  --green-on-dark: #0a0a0a;
+}
+```
+
+---
+
+## TYPOGRAPHY
+
+Load from Google Fonts:
+- JetBrains Mono — weights 400 and 500
+- Inter — weights 400, 500, and 600
+
+JetBrains Mono is used for: the file tree labels, tab bar filenames, status bar text, breadcrumb, the logo `<salano />`, all `//` and `/* */` comment labels in the content area, tech pill text, and the `.md` extension colouring in the tree.
+
+Inter is used for: all body copy, paragraph text, experience bullets, project descriptions, section headings inside the content area, form labels, and CTA button text.
+
+No other fonts. These two fonts are the entire typographic palette.
+
+---
+
+## OVERALL LAYOUT STRUCTURE
+
+The layout is a full-viewport IDE frame. Nothing outside the status bar scrolls — only the content area scrolls internally. The layout is composed of five zones:
+
+1. Activity Bar — 40px wide, full height minus status bar, far left
+2. File Tree Panel — 220px wide, full height minus status bar, next to activity bar
+3. Tab Bar — 36px tall, sits above the content area to the right of the file tree
+4. Breadcrumb Bar — 28px tall, sits directly below the tab bar
+5. Content Area — fills remaining width and height, only scrollable zone
+6. Status Bar — 22px tall, full viewport width, pinned to bottom
+
+The entire layout must use `height: 100vh` and `overflow: hidden` on the root. Only the content area has `overflow-y: auto`.
+
+---
+
+## ZONE 1 — ACTIVITY BAR
+
+Width: 40px. Height: calc(100vh - 22px). Background: var(--bg-deepest). Right border: 1px solid var(--border-panel).
+
+Contains exactly 5 icons from Lucide React, each 18px square:
+- Files icon (FolderOpen) — top of the stack, always has a 2px left border in var(--green) as its active indicator since the tree is always open
+- Search icon (Search)
+- Git icon (GitBranch)
+- Extensions icon (LayoutGrid)
+- Settings icon (Settings) — pinned to the bottom with margin-top: auto
+
+All icons are stacked vertically with 8px gap, starting 16px from the top. At rest, all icon colours are var(--text-muted). On hover, icon colour transitions to var(--green) over 150ms. The Files icon always shows the green left border regardless of hover state.
+
+---
+
+## ZONE 2 — FILE TREE PANEL
+
+Width: 220px. Height: calc(100vh - 22px). Background: var(--bg-panel). Right border: 1px solid var(--border-subtle).
+
+At the very top, a panel header: the text "Project" in var(--text-muted), 11px JetBrains Mono, uppercase, with a small ChevronDown icon (10px) next to it. This header row is 36px tall with 12px left padding. It has a 1px bottom border in var(--border-subtle).
+
+Below the header, the file tree:
+
+```
+▼ stephen-salano        ← root folder row
+    Home.md             ← file row, 16px indent
+    Work.md
+    About.md
+    Contact.md
+    Articles.md
+```
+
+Root folder row: 26px tall, 8px vertical padding, 8px left padding. A small ChevronDown icon (12px) in var(--text-muted) followed by a Folder icon (14px) in var(--text-muted) followed by the text "stephen-salano" in var(--text-primary) at 13px JetBrains Mono. The folder is always expanded — there is no collapse behaviour.
+
+File rows: 26px tall, 8px vertical padding, 28px left padding (16px indent from folder). A small FileText icon (14px) in var(--text-muted) followed by the filename. The filename is rendered in two spans — the base name (e.g. "Home") in var(--text-secondary) at 13px JetBrains Mono, and the extension (".md") in var(--syntax-string) at 13px JetBrains Mono. This split colouring is important — do not render the full filename in a single colour.
+
+Active file row: background var(--bg-selection), full filename text (both spans) become var(--text-primary), transition 80ms.
+
+Hover on inactive file rows: background var(--bg-tab-hover), transition 80ms. Cursor: pointer.
+
+Clicking a file row navigates to that page, updates the active tree item, and opens a new tab in the tab bar (if not already open).
+
+---
+
+## ZONE 3 — TAB BAR
+
+Height: 36px. Background: var(--bg-panel). Bottom border: 1px solid var(--border-subtle). Sits to the right of the file tree, above the content area.
+
+On first load, only "Home.md" tab is open. As the visitor navigates to other pages, new tabs are added and persist — they do not auto-close. The tab bar therefore starts with one tab and can accumulate up to five.
+
+Each tab is a flex row: 12px left padding, 8px right padding, filename in 12px JetBrains Mono. Max width per tab: 160px.
+
+Inactive tab: var(--text-secondary) text, transparent background, 1px right border var(--border-subtle).
+
+Active tab: var(--text-primary) text, background var(--bg-tab-active), and critically a 2px solid var(--green) border on the TOP edge of the tab only. This green top border is the most important detail in the entire tab bar — do not omit it or move it to a different edge.
+
+Each tab has a small X icon (Lucide X, 10px) on the right side. The X is invisible at rest (opacity: 0) and fades in (opacity: 1) when the tab is hovered. Clicking the X closes the tab and navigates to the previous open tab, or to Home.md if all others are closed. Home.md cannot be closed — its X icon should not be shown at all.
+
+New tab entrance animation: slide in from the right, width animates from 0 to full over 200ms with ease-out.
+
+---
+
+## ZONE 4 — BREADCRUMB BAR
+
+Height: 28px. Background: var(--bg-deepest). Bottom border: 1px solid var(--border-subtle). Left padding: 16px.
+
+Text format: "stephen-salano  >  Home.md" where ">" is a separator and the whole string is in var(--text-muted) at 11px JetBrains Mono. The current page filename updates dynamically as the visitor navigates. Use ChevronRight (10px) as the separator icon instead of a plain text ">".
+
+---
+
+## ZONE 5 — CONTENT AREA
+
+Width: calc(100vw - 260px). Height: calc(100vh - 36px - 28px - 22px). Background: var(--bg-deepest). Overflow-y: auto. Overflow-x: hidden.
+
+Custom scrollbar: width 6px, track transparent, thumb var(--border-panel), thumb on hover var(--text-muted), transition 200ms.
+
+Inner content wrapper: max-width 860px, margin: 0 auto, padding: 60px 48px.
+
+---
+
+## ZONE 6 — STATUS BAR
+
+Height: 22px. Width: 100vw. Background: var(--green). Position: fixed bottom 0. Z-index: 100.
+
+Left side content: a GitBranch icon (12px, colour var(--green-on-dark)) followed by the text "main" in var(--green-on-dark) at 11px JetBrains Mono. Left padding 12px.
+
+Right side content: "UTF-8  LF  stephen-salano/" in var(--green-on-dark) at 11px JetBrains Mono. Right padding 12px.
+
+Use flexbox with space-between to position left and right content. No border on this element — the green background provides sufficient contrast.
+
+---
+
+## PAGE CONTENT — HOME.MD
+
+### Hero Section
+
+The hero section occupies the full content area height on first load: height calc(100vh - 86px). It has two background layers stacked:
+
+Layer 1 (bottom): A CSS grid texture using:
+```css
+background-image:
+  linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+background-size: 40px 40px;
+```
+
+Layer 2 (top): A radial green glow using:
+```css
+background: radial-gradient(ellipse 60% 70% at 30% 50%, rgba(34,197,94,0.07) 0%, transparent 70%);
+```
+
+Apply both as stacked backgrounds on the hero element. The content sits above both layers.
+
+The hero content block is vertically centred using flexbox (flex-direction: column, justify-content: center). Left padding 48px. The content block renders the following elements in this exact order from top to bottom:
+
+1. The text "// hello-world" in var(--green), 12px JetBrains Mono, margin-bottom 8px.
+
+2. The text "STEPHEN  SALANO" (two spaces between words) in var(--text-muted), 13px JetBrains Mono, letter-spacing 0.15em, margin-bottom 16px.
+
+3. The text "Full-Stack Engineer & CTO." in var(--text-primary), Inter 700, font-size clamp(2.5rem, 6vw, 4.5rem), line-height 1.1, margin-bottom 24px.
+
+4. A pill element containing the text "/* SaaS — Salano as a Service */" — this pill must sit INSIDE the hero section, directly under the title. The pill styles: display inline-flex, border 1px solid rgba(34,197,94,0.3), background rgba(34,197,94,0.08), padding 4px 12px, border-radius 4px, colour var(--green), font 12px JetBrains Mono. Margin-bottom 24px.
+
+5. A paragraph with the text: "Currently CTO at Axiss Innovators, where I'm building Psyllabus — a multi-tenant school management platform. Based in Nairobi. I write Java for production and think in systems." Colour var(--text-secondary), font Inter 400 15px, line-height 1.65, max-width 480px, margin-bottom 40px.
+
+6. Two CTA buttons in a flex row with 16px gap:
+   - "View my work →" — background var(--green), colour var(--green-on-dark), padding 10px 24px, border-radius 4px, Inter 500 15px, no border, cursor pointer. On hover: background var(--green-dim), transition 150ms.
+   - "Get in touch →" — background transparent, colour var(--text-secondary), padding 10px 24px, border-radius 4px, Inter 500 15px, border 1px solid var(--border-panel), cursor pointer. On hover: border-color var(--green), colour var(--green), transition 150ms.
+
+On first page load, the hero content animates in with staggered entrance: each element starts at opacity 0 and translateY(12px) and transitions to opacity 1 and translateY(0) with ease-out. Delays: item 1 at 100ms, item 2 at 200ms, item 3 at 300ms, item 4 at 350ms, item 5 at 400ms, item 6 at 500ms. Duration for each: 400ms.
+
+### Experience Section
+
+Starts immediately after the hero. Padding-top 80px.
+
+Section label: "// experience" in var(--green), 12px JetBrains Mono, margin-bottom 24px.
+
+Three experience entries separated by 40px gaps. Each entry has a thin 1px vertical left border in var(--border-subtle) running its full height, with 20px left margin to the section edge.
+
+Entry 1:
+- Date: "2025 — Present" in var(--text-muted), 12px JetBrains Mono
+- Role: "CTO & Senior Full-Stack Engineer · Axiss Innovators" in var(--text-primary), Inter 600 16px
+- Bullets (use em-dash "—" as bullet character, not a disc): "Architecting the Psyllabus platform — a multi-tenant SaaS system for school management" / "Designing and implementing JWT-based authentication with role-based access control" / "Leading technical decisions across backend, infrastructure, and frontend systems"
+- Tech pills: Java, Spring Boot, PostgreSQL, React, Docker
+
+Entry 2:
+- Date: "Oct 2025 — Dec 2025, Contract" in var(--text-muted), 12px JetBrains Mono
+- Role: "IT Systems Administrator · SportPesa Kenya" in var(--text-primary), Inter 600 16px
+- Bullets: "Managed and maintained internal IT infrastructure and systems" / "Provided technical support and ensured uptime of business-critical systems"
+- Tech pills: Linux, Networking, Systems Administration
+
+Entry 3:
+- Date: "Jun 2022 — Jan 2023" in var(--text-muted), 12px JetBrains Mono
+- Role: "Back-end Engineer · AfyaRekod" in var(--text-primary), Inter 600 16px
+- Bullets: "Built and maintained RESTful APIs for a health records management platform" / "Implemented secure data access patterns and backend service integrations"
+- Tech pills: Java, Spring Boot, REST APIs, MySQL
+
+Tech pill styles: background var(--bg-panel), border 1px solid var(--border-subtle), padding 3px 10px, border-radius 3px, colour var(--text-secondary), font 11px JetBrains Mono.
+
+### Technical Depth Section
+
+Section label: "// stack" in var(--green), 12px JetBrains Mono, margin-bottom 24px. Padding-top 80px.
+
+A 4-column grid with gap 24px. Column titles in var(--text-muted), 11px JetBrains Mono uppercase, margin-bottom 16px.
+
+Column 1 — "Backend": Java, Spring Boot, Spring Security, JPA / Hibernate, REST APIs, JWT Authentication, Maven
+Column 2 — "Frontend": React, TypeScript, HTML / CSS, Tailwind CSS
+Column 3 — "Infrastructure": Docker, PostgreSQL, MySQL, Vercel, Git
+Column 4 — "Tools": IntelliJ IDEA, Postman, GitHub, Linux
+
+Each item in a column is preceded by a ">" in var(--green) and the item text in var(--text-secondary) at 13px JetBrains Mono. Vertical spacing between items: 8px.
+
+Do not add any items not listed above. Do not add AWS, Elasticsearch, Event Sourcing, CQRS, or any other technology not in the lists above.
+
+### Featured Work Section
+
+Section label: "// work" in var(--green), 12px JetBrains Mono, margin-bottom 24px. Padding-top 80px.
+
+Three project cards in a grid: grid-template-columns repeat(3, 1fr), gap 24px. All three cards must be equal width — this is mandatory.
+
+Card styles: background var(--bg-panel), border 1px solid var(--border-subtle), border-radius 6px, padding 24px. On hover: border-color rgba(34,197,94,0.4), box-shadow 0 0 20px rgba(34,197,94,0.05), transition 200ms.
+
+Card 1 — Psyllabus:
+- Status pill: "Private" in var(--text-muted), border 1px solid var(--border-subtle), 11px JetBrains Mono, padding 2px 8px, border-radius 3px
+- Name: "Psyllabus" in var(--text-primary), Inter 600 16px
+- Tech tag: "Java · Spring Boot · React · PostgreSQL" in var(--syntax-string), 12px JetBrains Mono
+- Description: "Multi-tenant school management platform built for Axiss Innovators. Handles academic records, authentication, attendance, grading, and student lifecycle management." in var(--text-secondary), Inter 14px
+- Bottom row: text "Frontend preview available on request" in var(--text-muted), 12px Inter
+
+Card 2 — File Flow API:
+- Status pill: "Open Source" in var(--green), border 1px solid rgba(34,197,94,0.3), background rgba(34,197,94,0.08), 11px JetBrains Mono, padding 2px 8px, border-radius 3px
+- Name: "File Flow API" in var(--text-primary), Inter 600 16px
+- Tech tag: "Java · Spring Boot · REST API" in var(--syntax-string), 12px JetBrains Mono
+- Description: "A RESTful API for file management operations. Built for handling file upload, storage, and retrieval workflows in backend systems." in var(--text-secondary), Inter 14px
+- Bottom row: a GitHub icon (Github from Lucide, 14px) linking to https://github.com/Stephen-Salano in var(--text-muted), hover colour var(--green), transition 150ms
+
+Card 3 — Courigistics Backend:
+- Status pill: "Open Source" — same styles as Card 2
+- Name: "Courigistics Backend" in var(--text-primary), Inter 600 16px
+- Tech tag: "Java · Spring Boot · MySQL" in var(--syntax-string), 12px JetBrains Mono
+- Description: "Backend service for a logistics and courier management system. Covers order tracking, route management, and delivery status workflows." in var(--text-secondary), Inter 14px
+- Bottom row: GitHub icon linking to https://github.com/Stephen-Salano, same hover styles
+
+### Bottom CTA Section
+
+Padding 80px 48px. Background: same radial green glow as hero — radial-gradient(ellipse 80% 60% at 50% 50%, rgba(34,197,94,0.06) 0%, transparent 70%). Content is centred (text-align: center).
+
+From top to bottom:
+1. "/* let's build something */" in var(--green), 12px JetBrains Mono, margin-bottom 16px
+2. "Available for the right opportunity." in var(--text-primary), Inter 600 28px, margin-bottom 16px
+3. "contact@stephensalano.dev" as an anchor tag with mailto:contact@stephensalano.dev, colour var(--green), Inter 15px, text-decoration underline, margin-bottom 32px
+4. A ghost button "Open a conversation →" — same styles as the "Get in touch" ghost button in the hero
+
+---
+
+## PAGE CONTENT — WORK.MD
+
+Page title block — padding 60px 48px 40px, background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(34,197,94,0.06) 0%, transparent 70%):
+- "// work" in var(--green), 12px JetBrains Mono, margin-bottom 12px
+- "Things I've shipped." in var(--text-primary), Inter 700 32px
+
+Below the title block, padding 0 48px:
+
+Three project cards in grid-template-columns repeat(3, 1fr), gap 24px. All three equal width — mandatory. Same card hover styles as the home page work section. Cards have expanded content:
+
+Card 1 — Psyllabus: same pill, name, and tech tag as home page. Full description: "Multi-tenant school management platform built for Axiss Innovators. Covers academic records, multi-branch management, JWT authentication with role-based access, attendance, grading, assessment, student lifecycle, and subscription management. The platform is built as a Spring Boot monolith with clearly bounded service layers, designed for eventual extraction into microservices." Tech pills below description: Java, Spring Boot, Spring Security, JWT, PostgreSQL, React, Docker, Maven. Bottom row: "Private repository — frontend preview available on request" in var(--text-muted), 12px Inter.
+
+Card 2 — File Flow API: same pill, name, tech tag. Full description: "A RESTful API for file management operations, handling upload, storage reference, and retrieval workflows. Built to be embedded in larger backend systems as a file-handling service layer." Tech pills: Java, Spring Boot, REST API, Maven. Bottom row: GitHub icon + text "View on GitHub" linking to https://github.com/Stephen-Salano, colour var(--text-muted), hover var(--green).
+
+Card 3 — Courigistics Backend: same pill, name, tech tag. Full description: "Backend service for a courier and logistics management platform. Handles order creation, status tracking, route assignment, and delivery confirmation workflows via a clean REST API." Tech pills: Java, Spring Boot, MySQL, Maven. Bottom row: GitHub icon + text "View on GitHub" linking to https://github.com/Stephen-Salano.
+
+Open Source block — full width, margin-top 40px: background var(--bg-panel), border 1px solid var(--border-subtle), border-radius 6px, padding 24px. Inside: "// open-source" label in var(--green) 12px JetBrains Mono, then "All public work is on GitHub." in var(--text-secondary) Inter 15px, then a link "View repositories →" in var(--green) with an ExternalLink icon (14px), linking to https://github.com/Stephen-Salano, opening in new tab.
+
+---
+
+## PAGE CONTENT — ABOUT.MD
+
+Page title block — same green glow treatment as Work.md:
+- "// about" in var(--green), 12px JetBrains Mono
+- "The engineer behind the code." in var(--text-primary), Inter 700 32px
+
+Content below: single column, max-width 680px, centred, padding 0 48px.
+
+Four sections, each preceded by its comment label:
+
+Section 1 — "// background": Two paragraphs. Paragraph 1: "I'm a full-stack engineer based in Nairobi, Kenya, with a focus on backend systems and platform architecture. I studied Computer Science at the Catholic University of Eastern Africa, where I developed a strong foundation in systems thinking and software design." Paragraph 2: "Currently serving as CTO at Axiss Innovators, I lead the technical direction of Psyllabus — a multi-tenant school management platform I've been building from the ground up. Java and Spring Boot are my primary tools for production work, though I move across the stack when the problem requires it."
+
+Section 2 — "// approach": A code comment block. Styles: background var(--bg-panel), border-left 3px solid var(--green), border-radius 0 4px 4px 0, padding 24px. Content inside in var(--text-secondary) JetBrains Mono 13px, line-height 1.8:
+```
+/**
+ * Build for reliability, not just speed.
+ * Design for the engineer who maintains it next.
+ * Understand the system before optimising it.
+ * Ship working software, then make it excellent.
+ */
+```
+
+Section 3 — "// education": "BSc Computer Science — Catholic University of Eastern Africa. Currently completing final requirements." in var(--text-secondary) Inter 15px. Do not include any graduation date. Do not include the Diploma in IT.
+
+Section 4 — "// elsewhere": Three links in a horizontal flex row with 24px gap: a Github icon + "GitHub" linking to https://github.com/Stephen-Salano, a Linkedin icon + "LinkedIn" linking to https://linkedin.com/in/stephen-salano, a Mail icon + "Email" with mailto:contact@stephensalano.dev. All links: colour var(--text-secondary), Inter 14px, icon 16px, 8px gap between icon and text, hover colour var(--green), transition 150ms.
+
+---
+
+## PAGE CONTENT — CONTACT.MD
+
+Page title block — same green glow treatment:
+- "// contact" in var(--green), 12px JetBrains Mono
+- "Open a conversation." in var(--text-primary), Inter 700 32px
+
+Two-column layout below the title: left column 55% width for the form, right column 40% width for the info block, 1px solid var(--border-subtle) divider between them, padding 0 48px.
+
+Left column — Contact form:
+Labels: colour var(--text-muted), 11px JetBrains Mono uppercase, margin-bottom 6px.
+Inputs: background var(--bg-panel), border 1px solid var(--border-subtle), border-radius 4px, padding 10px 14px, colour var(--text-primary), font Inter 14px, width 100%. On focus: border-color var(--green), outline none, box-shadow 0 0 0 2px rgba(34,197,94,0.15).
+
+Fields in order: Name (text input), Email (email input), Inquiry Type (select element with options: "General Inquiry", "Full-Time Role", "Contract Work", "Collaboration"), Message (textarea, min-height 120px, resize vertical).
+
+Submit button: full width, background var(--green), colour var(--green-on-dark), Inter 500 15px, padding 12px, border-radius 4px, border none, cursor pointer, margin-top 8px. Hover: background var(--green-dim), transition 150ms.
+
+Right column — Info block:
+"// open-to" label in var(--green) 12px JetBrains Mono, margin-bottom 16px.
+List items with "—" prefix in var(--text-secondary) Inter 14px, line-height 2:
+- Full-stack engineering roles
+- Backend systems contracts
+- Technical co-founder conversations
+- Open source collaboration
+
+Below the list, margin-top 32px: "contact@stephensalano.dev" as a mailto link in var(--green) JetBrains Mono 13px.
+
+Do not include any phone number anywhere on this page or any other page.
+
+---
+
+## PAGE CONTENT — ARTICLES.MD
+
+Page title block — same green glow treatment:
+- "// articles" in var(--green), 12px JetBrains Mono
+- "System design & technical writing." in var(--text-primary), Inter 700 32px
+
+A single centred content block, max-width 560px, margin 80px auto, padding 32px, background var(--bg-panel), border 1px solid var(--border-subtle), border-left 3px solid var(--green), border-radius 0 6px 6px 0.
+
+Inside the block:
+- "/* Currently writing */" in var(--green), 13px JetBrains Mono, margin-bottom 16px
+- "First post in progress. Architecture notes from the Psyllabus platform — multi-tenancy, JWT filter chains, and service layer design." in var(--text-secondary), Inter 15px, line-height 1.65
+- "Check back soon." in var(--text-muted), Inter 13px, margin-top 12px
+
+---
+
+## RESPONSIVE BEHAVIOUR
+
+### Tablet (768px to 1279px)
+- Hide the activity bar entirely (display: none)
+- Hide the file tree panel entirely (display: none)
+- The content area becomes full viewport width
+- The tab bar spans the full viewport width
+- Add a Menu icon button (Lucide Menu, 20px, colour var(--text-muted)) in the top-left of the tab bar, 12px from left edge
+- Clicking this button slides in the file tree as a drawer from the left: position fixed, top 0, left 0, width 260px, height 100vh, background var(--bg-panel), z-index 200, transition transform 250ms ease-out. Behind the drawer, a full-viewport overlay div with background rgba(0,0,0,0.5) and z-index 199 — clicking it closes the drawer.
+- Content area padding: 48px 32px
+
+### Mobile (below 768px)
+- Hide the activity bar (display: none)
+- Hide the file tree panel (display: none)
+- Hide the full tab bar
+- Replace the tab bar with a simple pill nav: a horizontal flex row of five pill buttons (Home, Work, About, Contact, Articles) with overflow-x auto and scrollbar hidden. Each pill: padding 6px 14px, border-radius 20px, font 12px JetBrains Mono, colour var(--text-secondary), background transparent, border 1px solid var(--border-subtle). Active pill: background rgba(34,197,94,0.1), border-color var(--green), colour var(--green).
+- Content area: full width, padding 24px 20px
+- Work page cards: switch to single column (grid-template-columns 1fr)
+- Technical depth grid: switch to 2 columns
+- Status bar simplified: left shows "⎇ main", right shows "stephen-salano", same text styles
+
+---
+
+## ABSOLUTE PROHIBITIONS — READ CAREFULLY
+
+The following must never appear anywhere in the build. If you are unsure whether something is prohibited, it is.
+
+- The word "Styleguide" anywhere
+- Any phone number in any format
+- Any project name other than: Psyllabus, File Flow API, Courigistics Backend
+- Any company name other than: Axiss Innovators, SportPesa Kenya, AfyaRekod
+- The headings: "Systems I've built.", "Thinking in public.", "Get in touch." — these belong to another developer's portfolio
+- The section labels: OVERVIEW, PROFESSIONAL EXPERIENCE, PHILOSOPHY, EDUCATION, LOCATION — same reason
+- Any technology in the stack section not listed in this prompt (no AWS, no Elasticsearch, no Event Sourcing, no CQRS, no Kafka, no Redis)
+- The Diploma in IT in any education section
+- Any graduation date next to the BSc
+- The `/* SaaS — Salano as a Service */` pill appearing anywhere other than inside the hero section
+- A traditional top navbar with Home/Work/About/Contact links — navigation is handled by the file tree and tabs only. The `<salano />` logo sits at the top of the file tree panel above the "Project" header, in var(--green) JetBrains Mono 500 15px, centred in the panel width.
+- Any footer element other than the status bar — the status bar IS the footer
+
+---
+
+## FINAL CHECK BEFORE DELIVERING
+
+Before considering the build complete, verify:
+- [ ] All five pages exist and are navigable through the file tree and tabs
+- [ ] The active tab always has a 2px green top border
+- [ ] The active file tree item always has var(--bg-selection) background
+- [ ] The status bar is solid green across the full viewport bottom
+- [ ] The `/* SaaS — Salano as a Service */` pill is inside the hero section
+- [ ] All three work cards are equal width in a 3-column grid
+- [ ] No phone numbers exist anywhere
+- [ ] No invented projects or companies exist anywhere
+- [ ] The file tree shows: Home.md, Work.md, About.md, Contact.md, Articles.md
+- [ ] The `.md` extension in each tree item is coloured var(--syntax-string) (#6A8759), separate from the base filename colour
+- [ ] JetBrains Mono is used for all chrome elements, Inter for all content body text
+- [ ] The layout is overflow hidden at root with only the content area scrolling

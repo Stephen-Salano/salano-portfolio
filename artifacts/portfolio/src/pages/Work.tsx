@@ -1,74 +1,78 @@
-import { SectionHeader } from "@/components/SectionHeader";
-import { ProjectCard, type ProjectData } from "@/components/ProjectCard";
+import { Github, ExternalLink } from "lucide-react";
 
-const PROJECTS: ProjectData[] = [
+const PROJECTS = [
   {
-    title: "School Management System",
-    description: "Multi-tenant SaaS platform for managing Kenyan schools with CBC grading, subscription-based access, and AI-powered insights for administrators, teachers, and parents.",
-    tech: ["Java 21", "Spring Boot", "PostgreSQL", "Redis", "Docker", "RabbitMQ"],
-    comment: "// Built at Axiss Innovators — multi-tenant with AI analytics",
-    github: "#",
-    githubPrivate: true
+    status: "private",
+    name: "Psyllabus",
+    tag: "Java · Spring Boot · React · PostgreSQL",
+    desc: "Multi-tenant school management platform built for Axiss Innovators. Covers academic records, multi-branch management, JWT authentication with role-based access, attendance, grading, assessment, student lifecycle, and subscription management. The platform is built as a Spring Boot monolith with clearly bounded service layers, designed for eventual extraction into microservices.",
+    pills: ["Java", "Spring Boot", "Spring Security", "JWT", "PostgreSQL", "React", "Docker", "Maven"],
+    bottom: (
+      <span>Private repository — frontend preview available on request</span>
+    ),
   },
   {
-    title: "File Flow API",
-    description: "Secure, scalable cloud-based media management and social network platform. Event-driven transcoding via FFMPEG, intelligent content analysis with Apache Tika and Spring AI, and a Neo4j-powered social graph recommendation engine.",
-    tech: ["Java", "Spring Boot", "Neo4j", "RabbitMQ", "Apache Tika", "FFMPEG", "Docker", "Spring AI"],
-    comment: "// Event-driven media pipeline with intelligent content analysis",
-    github: "https://github.com/Stephen-Salano"
+    status: "open",
+    name: "File Flow API",
+    tag: "Java · Spring Boot · REST API",
+    desc: "A RESTful API for file management operations, handling upload, storage reference, and retrieval workflows. Built to be embedded in larger backend systems as a file-handling service layer.",
+    pills: ["Java", "Spring Boot", "REST API", "Maven"],
+    bottom: (
+      <a href="https://github.com/Stephen-Salano" target="_blank" rel="noreferrer">
+        <Github size={14} /> View on GitHub
+      </a>
+    ),
   },
   {
-    title: "Courigistics Backend",
-    description: "Scalable, event-driven logistics platform connecting customers with freelance couriers. Non-blocking notifications via Java 21 Virtual Threads, and a custom driver compliance validation framework with a normalised PostgreSQL schema for complex entity relationships.",
-    tech: ["Java 21", "Spring Boot", "PostgreSQL", "Docker", "Virtual Threads", "Spring Async"],
-    comment: "// High-throughput async architecture with zero thread pool overhead",
-    github: "https://github.com/Stephen-Salano"
-  }
+    status: "open",
+    name: "Courigistics Backend",
+    tag: "Java · Spring Boot · MySQL",
+    desc: "Backend service for a courier and logistics management platform. Handles order creation, status tracking, route assignment, and delivery confirmation workflows via a clean REST API.",
+    pills: ["Java", "Spring Boot", "MySQL", "Maven"],
+    bottom: (
+      <a href="https://github.com/Stephen-Salano" target="_blank" rel="noreferrer">
+        <Github size={14} /> View on GitHub
+      </a>
+    ),
+  },
 ];
 
 export default function Work() {
   return (
-    <div className="max-w-6xl mx-auto px-6 lg:px-12 py-20 pb-32">
-      <header className="mb-20 max-w-3xl">
-        <div className="font-mono text-primary text-sm mb-5">
-          // Selected Work
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
-          Systems I've built.
-        </h1>
-        <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
-          Production systems and open-source tools. Each project includes architecture decisions and technical tradeoffs.
-        </p>
-      </header>
+    <>
+      <div className="page-title-block">
+        <div className="page-label">// work</div>
+        <h1 className="page-title">Things I've shipped.</h1>
+      </div>
 
-      <section className="mb-24">
-        <SectionHeader title="All Work" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {PROJECTS.slice(0, 2).map((project, i) => (
-            <ProjectCard key={i} project={project} className="h-full" />
+      <div className="page-body">
+        <div className="cards-grid" style={{ paddingTop: "8px" }}>
+          {PROJECTS.map((p, i) => (
+            <div key={i} className="project-card">
+              <div className="card-status-row">
+                <span className={`status-pill ${p.status === "open" ? "open" : "private"}`}>
+                  {p.status === "open" ? "Open Source" : "Private"}
+                </span>
+              </div>
+              <div className="card-name">{p.name}</div>
+              <div className="card-tech-tag">{p.tag}</div>
+              <p className="card-desc">{p.desc}</p>
+              <div className="card-pills">
+                {p.pills.map(pill => <span key={pill} className="tech-pill">{pill}</span>)}
+              </div>
+              <div className="card-bottom">{p.bottom}</div>
+            </div>
           ))}
-          <div className="md:max-w-[calc(50%-10px)]">
-            <ProjectCard project={PROJECTS[2]} className="h-full" />
-          </div>
         </div>
-      </section>
 
-      <section>
-        <SectionHeader title="GitHub" />
-        <div className="p-6 md:p-8 border border-border bg-card rounded-xl max-w-2xl">
-          <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-            I have additional projects and contributions on GitHub. Some are private or still in development. Public work can be found at the link below.
-          </p>
-          <a 
-            href="https://github.com/Stephen-Salano" 
-            target="_blank" 
-            rel="noreferrer"
-            className="inline-flex items-center font-mono text-sm text-primary hover:underline underline-offset-4 transition-colors"
-          >
-            github.com/Stephen-Salano →
+        <div className="oss-block">
+          <div className="section-label">// open-source</div>
+          <p>All public work is on GitHub.</p>
+          <a href="https://github.com/Stephen-Salano" target="_blank" rel="noreferrer">
+            View repositories → <ExternalLink size={14} />
           </a>
         </div>
-      </section>
-    </div>
+      </div>
+    </>
   );
 }
