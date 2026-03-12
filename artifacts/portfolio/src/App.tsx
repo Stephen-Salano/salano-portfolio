@@ -28,28 +28,31 @@ function renderPage(page: PageKey, navigate: (p: PageKey) => void) {
   }
 }
 
-function StarLogo({ gradientId }: { gradientId: string }) {
+function StarLogo({ gradientId, onClick }: { gradientId: string, onClick: () => void }) {
   return (
     <div className="logo-lockup">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 300 300"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#22c55e" stopOpacity="1" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.85" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M150 0 Q150 150 300 150 Q150 150 150 300 Q150 150 0 150 Q150 150 150 0 Z"
-          fill={`url(#${gradientId})`}
-        />
-      </svg>
-      <span className="logo-wordmark">salano</span>
+      <div className="logo-content" onClick={onClick} style={{ cursor: 'pointer' }}>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 300 300"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#22c55e" stopOpacity="1" />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.85" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M150 0 Q150 150 300 150 Q150 150 150 300 Q150 150 0 150 Q150 150 150 0 Z"
+            fill={`url(#${gradientId})`}
+          />
+        </svg>
+        <span className="logo-wordmark">salano</span>
+        <div className="logo-tooltip">👋</div>
+      </div>
     </div>
   );
 }
@@ -135,7 +138,7 @@ export default function App() {
 
         {/* Desktop / tablet file tree panel */}
         <div className="file-tree">
-          <StarLogo gradientId="salanoStarGradientPanel" />
+          <StarLogo gradientId="salanoStarGradientPanel" onClick={() => navigate("Home.md")} />
           <div className="file-tree-header">
             <ChevronDown size={10} />
             <span>Project</span>
@@ -152,7 +155,7 @@ export default function App() {
             <div className="mobile-drawer open">
               {/* Logo shown in drawer on tablet, hidden on mobile (CSS) */}
               <div className="drawer-logo">
-                <StarLogo gradientId="salanoStarGradientDrawer" />
+                <StarLogo gradientId="salanoStarGradientDrawer" onClick={() => navigate("Home.md")} />
               </div>
               <div className="file-tree-header">
                 <ChevronDown size={10} />
@@ -170,7 +173,7 @@ export default function App() {
 
           {/* Mobile header — logo left, hamburger right — CSS shows only on mobile */}
           <div className="mobile-header">
-            <StarLogo gradientId="salanoStarGradientMobile" />
+            <StarLogo gradientId="salanoStarGradientMobile" onClick={() => navigate("Home.md")} />
             <button
               className="mobile-menu-btn"
               onClick={() => setDrawerOpen(true)}
