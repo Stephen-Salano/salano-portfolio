@@ -1,0 +1,149 @@
+# REPLIT PATCH PROMPT — Logo Update & Console Easter Egg
+## Instructions: This is a patch to the existing Stephen Salano IDE portfolio build. Paste this entire prompt into Replit Agent exactly as written. Do not summarise or paraphrase. Apply these changes on top of the existing build without breaking anything that currently works.
+
+---
+
+## CHANGE 1 — REPLACE THE LOGO
+
+Remove the `<salano />` text currently sitting at the top of the file tree panel. Replace it with a CSS monogram badge that functions as a proper logo mark.
+
+The new logo is the letters `S.S` rendered as a badge element. The badge styles are as follows: display inline-flex, align-items center, justify-content center, width 36px, height 36px, background var(--bg-panel), border 1px solid var(--border-subtle), border-radius 4px, font-family JetBrains Mono, font-weight 500, font-size 14px, color var(--green), letter-spacing 0.05em, cursor default, user-select none.
+
+The badge sits at the very top of the file tree panel, centred horizontally within the 220px panel width, with 12px top margin and 16px bottom margin before the "Project" panel header below it. It must not sit inside the activity bar — it belongs to the file tree panel only.
+
+On hover, the badge border transitions to var(--green) with a 150ms ease transition and a very subtle box-shadow of 0 0 8px rgba(34,197,94,0.2). This is the only hover behaviour — no scale, no background change.
+
+Do not add any text label next to or below the badge. The `S.S` characters are the entire logo. Nothing else.
+
+---
+
+## CHANGE 2 — CONSOLE EASTER EGG
+
+Add a console easter egg that runs exactly once when the React application mounts. It must use `useEffect` with an empty dependency array in the root App component so it fires only on initial load, never on re-renders or navigation between pages.
+
+Create a standalone utility function called `runConsoleEasterEgg` in a new file at `src/utils/consoleEasterEgg.js`. The App component imports and calls this function inside the useEffect. The function must not be called anywhere else.
+
+The function uses `console.log` with the `%c` syntax to apply CSS styling to each line of console output. The browser's `%c` prefix allows CSS to be passed as a second argument to style the text — use this for every styled line.
+
+The output renders in four distinct visual stages, each with its own colour and purpose:
+
+Stage 1 — The Spring Boot ASCII banner. Render this in var(--green) (#22c55e) using font-family monospace and font-size 11px:
+
+```
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+```
+
+Stage 2 — The application name line. Render in var(--text-secondary) (#A9B7C6), monospace 11px:
+
+```
+ :: Stephen Salano Portfolio  :: (v1.0.0)
+```
+
+Stage 3 — The fake startup log lines. Render each line individually in var(--text-muted) (#6F737A), monospace 11px, with a small left padding for readability. The lines are:
+
+```
+[main] INFO  io.salano.portfolio.App      - Starting application...
+[main] INFO  io.salano.portfolio.App      - JVM running for 0.842s
+[main] INFO  io.salano.portfolio.Security - JWT filter chain initialised
+[main] INFO  io.salano.portfolio.Config   - Multi-tenant context loaded
+[main] INFO  io.salano.portfolio.Router   - Page routes registered: 5
+
+✓ Application started in 1.337s
+```
+
+Note on the startup time: 1.337s is intentional. 1337 is leet speak and is a small joke visible only to developers who notice it. Do not change this number.
+
+Stage 4 — The personal comment block. Render each line in var(--green) (#22c55e), monospace 11px. There must be one blank line before this block and one blank line after it:
+
+```
+// hey. you actually looked in here.
+// most people don't.
+//
+// if you're reading this, you're probably the kind of
+// engineer I'd want to work with.
+//
+// contact@stephensalano.dev
+// github.com/Stephen-Salano
+```
+
+The complete function implementation looks like this. Copy it exactly:
+
+```javascript
+export const runConsoleEasterEgg = () => {
+  const green = 'color: #22c55e; font-family: monospace; font-size: 11px;';
+  const muted = 'color: #6F737A; font-family: monospace; font-size: 11px;';
+  const secondary = 'color: #A9B7C6; font-family: monospace; font-size: 11px;';
+
+  // Stage 1 — Spring Boot ASCII banner
+  console.log(
+    '%c  .   ____          _            __ _ _\n' +
+    " /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\\n" +
+    '( ( )\\___ | \'_ | \'_| | \'_ \\/ _` | \\ \\ \\ \\\n' +
+    ' \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )\n' +
+    "  '  |____| .__|_| |_|_| |_\\__, | / / / /\n" +
+    ' =========|_|==============|___/=/_/_/_/',
+    green
+  );
+
+  // Stage 2 — Application name
+  console.log('%c\n :: Stephen Salano Portfolio  :: (v1.0.0)\n', secondary);
+
+  // Stage 3 — Fake startup logs
+  const logs = [
+    '[main] INFO  io.salano.portfolio.App      - Starting application...',
+    '[main] INFO  io.salano.portfolio.App      - JVM running for 0.842s',
+    '[main] INFO  io.salano.portfolio.Security - JWT filter chain initialised',
+    '[main] INFO  io.salano.portfolio.Config   - Multi-tenant context loaded',
+    '[main] INFO  io.salano.portfolio.Router   - Page routes registered: 5',
+    '',
+    '✓ Application started in 1.337s',
+  ];
+  logs.forEach(line => console.log('%c' + line, muted));
+
+  // Stage 4 — Personal comment block
+  const message = [
+    '',
+    "// hey. you actually looked in here.",
+    "// most people don't.",
+    '//',
+    "// if you're reading this, you're probably the kind of",
+    "// engineer I'd want to work with.",
+    '//',
+    '// contact@stephensalano.dev',
+    '// github.com/Stephen-Salano',
+    '',
+  ];
+  message.forEach(line => console.log('%c' + line, green));
+};
+```
+
+In the root App component, import the function and call it inside a useEffect:
+
+```javascript
+import { useEffect } from 'react';
+import { runConsoleEasterEgg } from './utils/consoleEasterEgg';
+
+// Inside the App component:
+useEffect(() => {
+  runConsoleEasterEgg();
+}, []); // Empty array means this runs once only, on first mount
+```
+
+---
+
+## WHAT MUST NOT CHANGE
+
+These parts of the existing build must remain completely untouched by this patch:
+
+The full IDE layout including the activity bar, file tree panel, tab bar, breadcrumb bar, content area, and status bar. All five pages and their content. All colour tokens defined in the CSS root. All navigation behaviour including tab persistence and tree item highlighting. The active tab green top border. The status bar green background. The responsive behaviour at tablet and mobile breakpoints. The three-column equal-width work card grid. The prohibition on phone numbers, invented projects, and invented companies remains absolute.
+
+---
+
+## FINAL CHECKS FOR THIS PATCH
+
+Before considering this patch complete, verify the following. The S.S badge is visible at the top of the file tree panel and is centred within the 220px panel width. The badge has a green border on hover. The `<salano />` text is completely gone. Opening the browser DevTools console and refreshing the page shows the Spring Boot banner in green, the application name line in muted blue-gray, the fake log lines in dark muted text, and the personal comment block in green. The easter egg does not run more than once per page load — navigating between pages must not re-trigger it. No existing functionality is broken.

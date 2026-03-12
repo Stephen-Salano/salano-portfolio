@@ -119,15 +119,35 @@ button {
   overflow: hidden;
 }
 
-.file-tree-logo {
+.file-tree-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.ss-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--green);
-  text-align: center;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border-subtle);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.05em;
+  cursor: default;
+  user-select: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ss-badge:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
 }
 
 .file-tree-header {

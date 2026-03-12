@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { runConsoleEasterEgg } from "@/utils/consoleEasterEgg";
 import {
   FolderOpen, Search, GitBranch, LayoutGrid, Settings,
   ChevronDown, ChevronRight, FileText, X, Menu
@@ -32,6 +33,10 @@ export default function App() {
   const [openTabs, setOpenTabs] = useState<PageKey[]>(["Home.md"]);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
+  useEffect(() => {
+    runConsoleEasterEgg();
+  }, []);
+
   const navigate = useCallback((page: PageKey) => {
     setCurrentPage(page);
     setOpenTabs(prev => prev.includes(page) ? prev : [...prev, page]);
@@ -57,7 +62,9 @@ export default function App() {
 
   const FileTree = (
     <div className="file-tree">
-      <div className="file-tree-logo">&lt;salano /&gt;</div>
+      <div className="file-tree-logo-wrap">
+        <div className="ss-badge">S.S</div>
+      </div>
       <div className="file-tree-header">
         <ChevronDown size={10} />
         <span>Project</span>
