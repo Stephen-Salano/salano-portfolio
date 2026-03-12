@@ -119,35 +119,70 @@ button {
   overflow: hidden;
 }
 
-.file-tree-logo-wrap {
+/* ======= LOGO LOCKUP ======= */
+.logo-lockup {
   display: flex;
-  justify-content: center;
-  margin-top: 12px;
-  margin-bottom: 16px;
-}
-
-.ss-badge {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-subtle);
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--green);
-  letter-spacing: 0.05em;
+  gap: 8px;
+  padding: 0 16px;
+  height: 52px;
   cursor: default;
   user-select: none;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.ss-badge:hover {
-  border-color: var(--green);
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+.logo-wordmark {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: #DFE1E5;
+  letter-spacing: 0.01em;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* ======= DRAWER LOGO ======= */
+.drawer-logo {
+  display: flex;
+}
+
+/* ======= MOBILE HEADER ======= */
+.mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 150;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.mobile-header .logo-lockup {
+  height: auto;
+  padding: 0;
+  border-bottom: none;
+}
+
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 150ms;
+}
+
+.mobile-menu-btn:hover {
+  color: var(--green);
 }
 
 .file-tree-header {
@@ -1085,11 +1120,6 @@ button {
   color: var(--green);
 }
 
-/* Mobile pill nav hidden by default */
-.mobile-pill-nav {
-  display: none;
-}
-
 /* ======= RESPONSIVE ======= */
 @media (max-width: 1279px) and (min-width: 768px) {
   .activity-bar { display: none; }
@@ -1106,13 +1136,14 @@ button {
   .file-tree { display: none; }
   .tab-bar { display: none; }
   .breadcrumb-bar { display: none; }
-  .mobile-pill-nav { display: flex; }
+  .mobile-header { display: flex; }
+  .drawer-logo { display: none; }
   .content-inner { padding: 24px 20px; }
   .stack-grid { grid-template-columns: repeat(2, 1fr); }
   .cards-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .contact-divider { display: none; }
-  .hero-section { padding-left: 24px; padding-right: 24px; height: auto; min-height: 100vh; }
+  .hero-section { padding-left: 24px; padding-right: 24px; height: auto; min-height: 80vh; }
   .cta-block { padding: 60px 24px; }
   .about-content { padding: 0 20px; }
   .page-title-block { padding: 40px 20px 32px; }

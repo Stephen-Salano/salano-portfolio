@@ -1,0 +1,130 @@
+# REPLIT PATCH PROMPT — Star Logo with "salano" Wordmark
+## Instructions: This is a patch to the existing Stephen Salano IDE portfolio build. Paste this entire prompt into Replit Agent exactly as written. Do not summarise or paraphrase. Apply these changes on top of the existing build without breaking anything that currently works.
+
+---
+
+## WHAT THIS PATCH DOES
+
+This patch replaces the current logo at the top of the file tree panel with a new logo lockup consisting of a 4-point SVG star icon with a green-to-white vertical gradient, followed by the wordmark "salano" in Inter 500. It also defines exactly how this logo behaves on smaller screen sizes.
+
+---
+
+## CHANGE 1 — THE STAR SVG ICON
+
+Replace whatever logo element currently exists at the top of the file tree panel with the following SVG. Copy it exactly — do not modify the path data, do not change the viewBox, do not add or remove any attributes.
+
+```jsx
+<svg
+  width="20"
+  height="20"
+  viewBox="0 0 300 300"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <defs>
+    <linearGradient id="salanoStarGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stopColor="#22c55e" stopOpacity="1" />
+      <stop offset="100%" stopColor="#ffffff" stopOpacity="0.85" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M 150 15 L 180 120 L 285 150 L 180 180 L 150 285 L 120 180 L 15 150 L 120 120 Z"
+    fill="url(#salanoStarGradient)"
+  />
+</svg>
+```
+
+Important notes on this SVG. The `viewBox="0 0 300 300"` is kept at the original dimensions so the star path renders correctly — only `width` and `height` are set to 20 to scale it down for the panel. The gradient ID is named `salanoStarGradient` — make sure this exact ID string is used both in the `<linearGradient id="...">` and in the `fill="url(#salanoStarGradient)"` attribute. If Replit creates multiple instances of this component, duplicate gradient IDs can cause the star to render without its gradient in some browsers. To prevent this, if the SVG is inside a reusable React component that renders more than once, move the `<defs>` block into a single global `<svg>` element placed once at the top of your App component with `width="0" height="0" style={{position:'absolute'}}` and reference the gradient by ID from anywhere. If the logo only renders once on the page, the inline approach above is fine.
+
+---
+
+## CHANGE 2 — THE WORDMARK
+
+Immediately to the right of the SVG star, render the text "salano" as a `<span>` with these exact styles:
+
+```css
+font-family: 'Inter', sans-serif;
+font-weight: 500;
+font-size: 15px;
+color: #DFE1E5;
+letter-spacing: 0.01em;
+user-select: none;
+white-space: nowrap;
+```
+
+The wordmark must never be green. It is always `#DFE1E5` — the primary text colour. The star handles the brand colour; the name sits beside it quietly.
+
+---
+
+## CHANGE 3 — THE LOCKUP CONTAINER
+
+Wrap the star SVG and the "salano" span together in a single container element with these styles:
+
+```css
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 0 16px;
+height: 52px;
+cursor: default;
+user-select: none;
+flex-shrink: 0;
+```
+
+This lockup container sits at the very top of the file tree panel, above the "PROJECT" panel header. It is separated from the panel header below it by the existing 1px border in var(--border-subtle). The lockup is left-aligned within the panel — do not centre it horizontally. Left padding of 16px aligns it with the file tree items below.
+
+---
+
+## CHANGE 4 — MOBILE AND TABLET RESPONSIVENESS FOR THE LOGO
+
+The logo lockup behaves differently at different screen sizes. These rules are mandatory.
+
+### Desktop (1280px and above)
+Show the full lockup — star icon and "salano" wordmark both visible. No changes to the layout described above.
+
+### Tablet (768px to 1279px)
+On tablet, the file tree panel is hidden by default and slides in as a drawer when the menu button is tapped. Inside the drawer, show the full lockup — star and wordmark both visible — at the top of the drawer panel, using the same styles as desktop. The wordmark does not need to be hidden just because we are on tablet.
+
+### Mobile (below 768px)
+On mobile, the file tree panel is fully hidden and replaced by the pill navigation strip. The logo moves to the top of the page in a slim mobile header bar that sits above the pill nav. This mobile header bar has the following styles:
+
+```css
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 48px;
+background: #2B2D30;
+border-bottom: 1px solid #393B40;
+padding: 0 16px;
+position: sticky;
+top: 0;
+z-index: 150;
+width: 100%;
+box-sizing: border-box;
+```
+
+Inside this mobile header, on the left side, place the logo lockup — star and wordmark both visible — with the same styles as desktop but `height: auto` and `padding: 0`. On the right side of the mobile header, place the menu icon button (Lucide Menu icon, 20px, colour #6F737A) that opens the file tree drawer. This menu button replaces wherever the menu button currently lives — consolidate it here in the mobile header rather than having it float elsewhere.
+
+On mobile, since the star and wordmark are already visible in the header, do not duplicate the logo inside the drawer. The drawer on mobile just shows the file tree content starting from the "PROJECT" label — no logo at the top of the drawer on mobile.
+
+---
+
+## WHAT MUST NOT CHANGE
+
+These parts of the existing build must remain completely untouched by this patch.
+
+The full IDE layout on desktop including the activity bar, file tree panel, tab bar, breadcrumb bar, content area, and status bar. All five pages and their content. All colour tokens. All navigation behaviour including tab persistence and tree item active states. The green top border on the active tab. The solid green status bar at the bottom. The three-column equal-width work card grid. The console easter egg if it was applied in a previous patch. The prohibition on phone numbers, invented projects, and invented companies remains absolute.
+
+---
+
+## FINAL CHECKS FOR THIS PATCH
+
+Before considering this patch complete, verify the following.
+
+On desktop: the star icon is 20×20px, renders with a green-to-white vertical gradient (bright green at the top fading to near-white at the bottom), and sits to the left of the word "salano" in white Inter 500. The lockup is left-aligned in the file tree panel with 16px left padding. The wordmark "salano" is never green — it is always #DFE1E5.
+
+On tablet: opening the drawer shows the full logo lockup at the top of the drawer panel.
+
+On mobile: a sticky header bar appears at the top of the screen showing the star + "salano" on the left and the menu icon on the right. The pill navigation strip appears immediately below the header bar. No logo duplication occurs inside the drawer on mobile.
+
+The gradient renders correctly — the star is not a flat green or flat white. If the gradient is not appearing, check that the gradient ID in the `<linearGradient>` element exactly matches the ID referenced in `fill="url(#...)"` and that there are no duplicate IDs in the DOM.

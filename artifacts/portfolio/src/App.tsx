@@ -28,10 +28,36 @@ function renderPage(page: PageKey, navigate: (p: PageKey) => void) {
   }
 }
 
+function StarLogo({ gradientId }: { gradientId: string }) {
+  return (
+    <div className="logo-lockup">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 300 300"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#22c55e" stopOpacity="1" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.85" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M 150 15 L 180 120 L 285 150 L 180 180 L 150 285 L 120 180 L 15 150 L 120 120 Z"
+          fill={`url(#${gradientId})`}
+        />
+      </svg>
+      <span className="logo-wordmark">salano</span>
+    </div>
+  );
+}
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageKey>("Home.md");
   const [openTabs, setOpenTabs] = useState<PageKey[]>(["Home.md"]);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     runConsoleEasterEgg();
@@ -40,7 +66,7 @@ export default function App() {
   const navigate = useCallback((page: PageKey) => {
     setCurrentPage(page);
     setOpenTabs(prev => prev.includes(page) ? prev : [...prev, page]);
-    setMobileDrawerOpen(false);
+    setDrawerOpen(false);
   }, []);
 
   const closeTab = useCallback((e: React.MouseEvent, tab: PageKey) => {
@@ -57,43 +83,32 @@ export default function App() {
     });
   }, [currentPage]);
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const isTablet = typeof window !== "undefined" && window.innerWidth >= 768 && window.innerWidth < 1280;
-
-  const FileTree = (
-    <div className="file-tree">
-      <div className="file-tree-logo-wrap">
-        <div className="ss-badge">S.S</div>
+  const FileTreeRows = (
+    <>
+      <div className="tree-folder-row">
+        <ChevronDown size={12} color="var(--text-muted)" />
+        <FolderOpen size={14} color="var(--text-muted)" />
+        <span>stephen-salano</span>
       </div>
-      <div className="file-tree-header">
-        <ChevronDown size={10} />
-        <span>Project</span>
-      </div>
-      <div className="file-tree-body">
-        <div className="tree-folder-row">
-          <ChevronDown size={12} color="var(--text-muted)" />
-          <FolderOpen size={14} color="var(--text-muted)" />
-          <span>stephen-salano</span>
+      {ALL_FILES.map(file => (
+        <div
+          key={file}
+          className={`tree-file-row${currentPage === file ? " active" : ""}`}
+          onClick={() => navigate(file)}
+        >
+          <FileText size={14} color="var(--text-muted)" />
+          <span>
+            <span className="tree-fname">{getBaseName(file)}</span><span className="tree-ext">.md</span>
+          </span>
         </div>
-        {ALL_FILES.map(file => (
-          <div
-            key={file}
-            className={`tree-file-row${currentPage === file ? " active" : ""}`}
-            onClick={() => navigate(file)}
-          >
-            <FileText size={14} color="var(--text-muted)" />
-            <span>
-              <span className="tree-fname">{getBaseName(file)}</span><span className="tree-ext">.md</span>
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
+      ))}
+    </>
   );
 
   return (
     <div className="ide-root">
       <div className="ide-main">
+
         {/* Activity Bar */}
         <div className="activity-bar">
           <div className="activity-icon active" title="Files">
@@ -113,26 +128,59 @@ export default function App() {
           </div>
         </div>
 
-        {/* File Tree (desktop) */}
-        {FileTree}
+        {/* Desktop / tablet file tree panel */}
+        <div className="file-tree">
+          <StarLogo gradientId="salanoStarGradientPanel" />
+          <div className="file-tree-header">
+            <ChevronDown size={10} />
+            <span>Project</span>
+          </div>
+          <div className="file-tree-body">
+            {FileTreeRows}
+          </div>
+        </div>
 
-        {/* Mobile Drawer */}
-        {mobileDrawerOpen && (
+        {/* Drawer (tablet hamburger + mobile header hamburger) */}
+        {drawerOpen && (
           <>
-            <div className="drawer-overlay" onClick={() => setMobileDrawerOpen(false)} />
-            <div className={`mobile-drawer open`}>
-              {FileTree}
+            <div className="drawer-overlay" onClick={() => setDrawerOpen(false)} />
+            <div className="mobile-drawer open">
+              {/* Logo shown in drawer on tablet, hidden on mobile (CSS) */}
+              <div className="drawer-logo">
+                <StarLogo gradientId="salanoStarGradientDrawer" />
+              </div>
+              <div className="file-tree-header">
+                <ChevronDown size={10} />
+                <span>Project</span>
+              </div>
+              <div className="file-tree-body">
+                {FileTreeRows}
+              </div>
             </div>
           </>
         )}
 
-        {/* Right Panel */}
+        {/* Right panel */}
         <div className="right-panel">
-          {/* Tab Bar (desktop/tablet) */}
+
+          {/* Mobile header — logo left, hamburger right — CSS shows only on mobile */}
+          <div className="mobile-header">
+            <StarLogo gradientId="salanoStarGradientMobile" />
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open navigation"
+            >
+              <Menu size={20} />
+            </button>
+          </div>
+
+          {/* Tab bar — shown on desktop/tablet */}
           <div className="tab-bar">
+            {/* Tablet hamburger in tab bar */}
             <button
               className="tablet-menu-btn"
-              onClick={() => setMobileDrawerOpen(true)}
+              onClick={() => setDrawerOpen(true)}
               aria-label="Open file tree"
             >
               <Menu size={20} />
@@ -153,19 +201,6 @@ export default function App() {
                   </span>
                 )}
               </div>
-            ))}
-          </div>
-
-          {/* Mobile Pill Nav */}
-          <div className="mobile-pill-nav">
-            {ALL_FILES.map(f => (
-              <button
-                key={f}
-                className={`mobile-pill${currentPage === f ? " active" : ""}`}
-                onClick={() => navigate(f)}
-              >
-                {getBaseName(f)}
-              </button>
             ))}
           </div>
 
