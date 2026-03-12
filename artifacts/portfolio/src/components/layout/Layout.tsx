@@ -21,7 +21,7 @@ export function Layout({ children }: { children: ReactNode }) {
           {children}
         </motion.div>
       </main>
-      <footer className="py-8 border-t border-border mt-20 text-center text-sm font-mono text-muted-foreground">
+      <footer className="py-8 border-t border-border mt-16 text-center text-xs font-mono text-primary/70">
         <p>/* © {new Date().getFullYear()} Stephen Salano. All rights reserved. */</p>
       </footer>
     </div>
