@@ -1,0 +1,11 @@
+packages:
+  "framer-motion": "For subtle page transition animations and smooth UI feels."
+  "clsx": "Utility for constructing className strings conditionally."
+  "tailwind-merge": "Utility to merge tailwind classes without style conflicts."
+
+images: []
+
+notes:
+  - Frontend-only personal portfolio.
+  - Strict dark mode theme with green accents.
+  - No backend integration required; contact form will simulate success state locally.
