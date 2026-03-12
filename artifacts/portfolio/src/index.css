@@ -273,7 +273,7 @@ button {
 }
 
 .tree-file-row {
-  height: 26px;
+  height: 32px; /* Increased from 26px */
   display: flex;
   align-items: center;
   padding: 0 8px 0 28px;
@@ -606,6 +606,40 @@ button {
 
 @keyframes heroIn {
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======= FLOATING LOGOS ======= */
+.floating-logos {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.logo-bubble {
+  position: absolute;
+  background: rgba(43, 45, 48, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-subtle);
+  animation: float 10s ease-in-out infinite;
+}
+
+.logo-bubble svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.7;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(10px); }
 }
 
 /* ======= SECTION LABELS ======= */
@@ -1179,6 +1213,10 @@ button {
   .page-title-block { padding: 60px 32px 40px; }
   .page-body { padding: 0 32px; }
   .contact-grid { padding: 0 32px; }
+}
+
+@media (max-width: 1023px) {
+  .floating-logos { display: none; }
 }
 
 @media (max-width: 767px) {
