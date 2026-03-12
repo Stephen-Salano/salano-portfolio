@@ -45,7 +45,7 @@ function StarLogo({ gradientId }: { gradientId: string }) {
           </linearGradient>
         </defs>
         <path
-          d="M 150 15 L 180 120 L 285 150 L 180 180 L 150 285 L 120 180 L 15 150 L 120 120 Z"
+          d="M150 0 Q150 150 300 150 Q150 150 150 300 Q150 150 0 150 Q150 150 150 0 Z"
           fill={`url(#${gradientId})`}
         />
       </svg>
@@ -62,6 +62,11 @@ export default function App() {
   useEffect(() => {
     runConsoleEasterEgg();
   }, []);
+
+  useEffect(() => {
+    const pageName = getBaseName(currentPage);
+    document.title = `${pageName} | Stephen Salano`;
+  }, [currentPage]);
 
   const navigate = useCallback((page: PageKey) => {
     setCurrentPage(page);
