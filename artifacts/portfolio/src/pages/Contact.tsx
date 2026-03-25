@@ -2,10 +2,42 @@ import { useState } from "react";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      inquiry: (form.elements.namedItem("inquiry") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      honeypot: (form.elements.namedItem("honeypot") as HTMLInputElement).value,
+    };
+
+    try {
+      const res = await fetch("https://api.sirlano.com/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        setError(json.error || "Something went wrong. Try again.");
+      } else {
+        setSubmitted(true);
+      }
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -16,7 +48,6 @@ export default function Contact() {
       </div>
 
       <div className="contact-grid">
-        {/* Form */}
         <div>
           {submitted ? (
             <div className="success-msg">
@@ -25,32 +56,47 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
+              {/* Honeypot - hidden from humans */}
+              <input
+                type="text"
+                name="honeypot"
+                style={{ display: "none" }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
               <label className="form-label" htmlFor="name">Name</label>
-              <input className="form-input" type="text" id="name" required />
+              <input className="form-input" type="text" id="name" name="name" required />
 
               <label className="form-label" htmlFor="email">Email</label>
-              <input className="form-input" type="email" id="email" required />
+              <input className="form-input" type="email" id="email" name="email" required />
 
               <label className="form-label" htmlFor="inquiry">Inquiry Type</label>
-              <select className="form-select" id="inquiry">
-                <option value="general">General Inquiry</option>
-                <option value="fulltime">Full-Time Role</option>
-                <option value="contract">Contract Work</option>
-                <option value="collab">Collaboration</option>
+              <select className="form-select" id="inquiry" name="inquiry">
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Full-Time Role">Full-Time Role</option>
+                <option value="Contract Work">Contract Work</option>
+                <option value="Collaboration">Collaboration</option>
               </select>
 
               <label className="form-label" htmlFor="message">Message</label>
-              <textarea className="form-textarea" id="message" required />
+              <textarea className="form-textarea" id="message" name="message" required />
 
-              <button type="submit" className="btn-submit">Send message →</button>
+              {error && (
+                <p style={{ color: "var(--destructive)", fontSize: "13px", marginBottom: "8px" }}>
+                  {error}
+                </p>
+              )}
+
+              <button type="submit" className="btn-submit" disabled={loading}>
+                {loading ? "Sending..." : "Send message →"}
+              </button>
             </form>
           )}
         </div>
 
-        {/* Divider */}
         <div className="contact-divider" />
 
-        {/* Info */}
         <div>
           <div className="section-label">// open-to</div>
           <ul className="open-to-list">
@@ -59,8 +105,8 @@ export default function Contact() {
             <li>Technical co-founder conversations</li>
             <li>Open source collaboration</li>
           </ul>
-          <a href="mailto:contact@stephensalano.dev" className="contact-email">
-            contact@stephensalano.dev
+          <a href="mailto:hello@sirlano.com" className="contact-email">
+            hello@sirlano.com
           </a>
         </div>
       </div>
