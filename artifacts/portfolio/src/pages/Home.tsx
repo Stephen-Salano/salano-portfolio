@@ -242,8 +242,8 @@ export default function Home({ navigate }: HomeProps) {
       <div className="cta-block">
         <div className="cta-comment">/* let's build something */</div>
         <div className="cta-heading">Available for the right opportunity.</div>
-        <a href="mailto:contact@stephensalano.dev" className="cta-email">
-          contact@stephensalano.dev
+        <a href="mailto:hello@sirlano.com" className="cta-email">
+          hello@sirlano.com
         </a>
         <button className="btn-ghost" onClick={() => navigate("Contact.md")}>
           Open a conversation →

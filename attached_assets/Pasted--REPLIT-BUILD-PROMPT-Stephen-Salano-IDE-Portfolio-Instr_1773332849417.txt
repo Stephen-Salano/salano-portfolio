@@ -278,7 +278,7 @@ Padding 80px 48px. Background: same radial green glow as hero — radial-gradien
 From top to bottom:
 1. "/* let's build something */" in var(--green), 12px JetBrains Mono, margin-bottom 16px
 2. "Available for the right opportunity." in var(--text-primary), Inter 600 28px, margin-bottom 16px
-3. "contact@stephensalano.dev" as an anchor tag with mailto:contact@stephensalano.dev, colour var(--green), Inter 15px, text-decoration underline, margin-bottom 32px
+3. "hello@sirlano.com" as an anchor tag with mailto:hello@sirlano.com, colour var(--green), Inter 15px, text-decoration underline, margin-bottom 32px
 4. A ghost button "Open a conversation →" — same styles as the "Get in touch" ghost button in the hero
 
 ---
@@ -327,7 +327,7 @@ Section 2 — "// approach": A code comment block. Styles: background var(--bg-p
 
 Section 3 — "// education": "BSc Computer Science — Catholic University of Eastern Africa. Currently completing final requirements." in var(--text-secondary) Inter 15px. Do not include any graduation date. Do not include the Diploma in IT.
 
-Section 4 — "// elsewhere": Three links in a horizontal flex row with 24px gap: a Github icon + "GitHub" linking to https://github.com/Stephen-Salano, a Linkedin icon + "LinkedIn" linking to https://linkedin.com/in/stephen-salano, a Mail icon + "Email" with mailto:contact@stephensalano.dev. All links: colour var(--text-secondary), Inter 14px, icon 16px, 8px gap between icon and text, hover colour var(--green), transition 150ms.
+Section 4 — "// elsewhere": Three links in a horizontal flex row with 24px gap: a Github icon + "GitHub" linking to https://github.com/Stephen-Salano, a Linkedin icon + "LinkedIn" linking to https://linkedin.com/in/stephen-salano, a Mail icon + "Email" with mailto:hello@sirlano.com. All links: colour var(--text-secondary), Inter 14px, icon 16px, 8px gap between icon and text, hover colour var(--green), transition 150ms.
 
 ---
 
@@ -355,7 +355,7 @@ List items with "—" prefix in var(--text-secondary) Inter 14px, line-height 2:
 - Technical co-founder conversations
 - Open source collaboration
 
-Below the list, margin-top 32px: "contact@stephensalano.dev" as a mailto link in var(--green) JetBrains Mono 13px.
+Below the list, margin-top 32px: "hello@sirlano.com" as a mailto link in var(--green) JetBrains Mono 13px.
 
 Do not include any phone number anywhere on this page or any other page.
 

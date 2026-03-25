@@ -67,7 +67,7 @@ Stage 4 — The personal comment block. Render each line in var(--green) (#22c55
 // if you're reading this, you're probably the kind of
 // engineer I'd want to work with.
 //
-// contact@stephensalano.dev
+// hello@sirlano.com
 // github.com/Stephen-Salano
 ```
 
@@ -114,7 +114,7 @@ export const runConsoleEasterEgg = () => {
     "// if you're reading this, you're probably the kind of",
     "// engineer I'd want to work with.",
     '//',
-    '// contact@stephensalano.dev',
+    '// hello@sirlano.com',
     '// github.com/Stephen-Salano',
     '',
   ];

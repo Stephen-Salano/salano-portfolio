@@ -63,7 +63,7 @@ The stack reflected in this portfolio's own work includes:
 
 - **GitHub** — [github.com/Stephen-Salano](https://github.com/Stephen-Salano)
 - **LinkedIn** — [linkedin.com/in/stephen-salano](https://linkedin.com/in/stephen-salano)
-- **Email** — contact@stephensalano.dev
+- **Email** — hello@sirlano.com
 
 ---
 

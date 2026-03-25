@@ -50,7 +50,7 @@ export default function About() {
             <a href="https://linkedin.com/in/stephen-salano" target="_blank" rel="noreferrer">
               <Linkedin size={16} /> LinkedIn
             </a>
-            <a href="mailto:contact@stephensalano.dev">
+            <a href="mailto:hello@sirlano.com">
               <Mail size={16} /> Email
             </a>
           </div>

@@ -56,7 +56,7 @@ Section `EDUCATION`: BSc Computer Science, Catholic University of Eastern Africa
 
 **Contact Page.** Page header uses the green-fade background. Small green label `// Contact` above large bold heading "Get in touch." Subtitle: "Open to full-time engineering roles, contract work, and technical consulting."
 
-Below, a two-column layout separated by a single thin vertical green line down the middle. Left column: `OPEN TO` in small green monospace with four bullet points — Full-time engineering roles, Contract and freelance work, Technical consulting, Open-source collaboration. Below that, `REACH ME DIRECTLY` with three plain text entries: GitHub — github.com/Stephen-Salano, LinkedIn — linkedin.com/in/stephen-salano, Email — contact@stephensalano.dev. No phone number anywhere on this page.
+Below, a two-column layout separated by a single thin vertical green line down the middle. Left column: `OPEN TO` in small green monospace with four bullet points — Full-time engineering roles, Contract and freelance work, Technical consulting, Open-source collaboration. Below that, `REACH ME DIRECTLY` with three plain text entries: GitHub — github.com/Stephen-Salano, LinkedIn — linkedin.com/in/stephen-salano, Email — hello@sirlano.com. No phone number anywhere on this page.
 
 Right column: a contact form with a subtle dark green background card. Fields: Name, Email, a "Subject" text input (not a dropdown), and a Message textarea. Submit button is solid green "Send message →". Below the form, a green-bordered availability note styled as `/* Availability */` — "Currently leading development at Axiss Innovators. Open to the right opportunity." The form needs only a frontend success state on submit, no backend required.
 

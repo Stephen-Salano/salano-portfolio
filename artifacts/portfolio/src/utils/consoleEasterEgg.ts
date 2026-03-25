@@ -38,7 +38,7 @@ export const runConsoleEasterEgg = (): void => {
     "// if you're reading this, you're probably the kind of",
     "// engineer I'd want to work with.",
     '//',
-    '// contact@stephensalano.dev',
+    '// hello@sirlano.com',
     '// github.com/Stephen-Salano',
     '',
   ];
